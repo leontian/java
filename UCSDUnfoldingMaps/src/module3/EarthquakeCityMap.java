@@ -108,19 +108,22 @@ public class EarthquakeCityMap extends PApplet {
         Object magObj = feature.getProperty("magnitude");
         float mag = Float.parseFloat(magObj.toString());
         if (mag < THRESHOLD_LIGHT) {
-            marker.setRadius(5);
-            marker.setColor(blue);
+            setRadiusAndColor(marker, 5, blue);
         }
         else if (mag < THRESHOLD_MODERATE) {
-            marker.setRadius(10);
-            marker.setColor(yellow);
+            setRadiusAndColor(marker, 10, yellow);
         }
         else {
-            marker.setRadius(15);
-            marker.setColor(red);
+            setRadiusAndColor(marker, 15, red);
         }
 		return marker;
 	}
+
+    // helper function to save some lines of code
+    private void setRadiusAndColor(SimplePointMarker marker, float radius, int color) {
+        marker.setColor(color);
+        marker.setRadius(radius);
+    }
 	
 	public void draw() {
 	    background(10);
@@ -134,6 +137,24 @@ public class EarthquakeCityMap extends PApplet {
 	private void addKey() 
 	{	
 		// Remember you can use Processing's graphics methods here
-	
+        int bg = color(255, 255, 204);
+        int yellow = color(255, 255, 0);
+        int blue = color(0, 0, 255);
+        int red = color(255, 0, 0);
+
+        // background rectangle
+        fill(bg);
+        rect(30, 50, 150, 250);
+        fill(10);
+        text("Earthquake Key:", 40, 80);
+        text("5.0+ Magnitude", 70, 130);
+        text("4.0+ Magnitude", 70, 180);
+        text("Below 4.0", 70, 230);
+        fill(red);
+        ellipse(50, 125, 15, 15);
+        fill(yellow);
+        ellipse(50, 175, 10, 10);
+        fill(blue);
+        ellipse(50, 225, 5, 5);
 	}
 }
