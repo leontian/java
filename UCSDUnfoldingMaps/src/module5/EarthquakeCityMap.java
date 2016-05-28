@@ -164,10 +164,56 @@ public class EarthquakeCityMap extends PApplet {
 	public void mouseClicked()
 	{
 		// TODO: Implement this method
-		// Hint: You probably want a helper method or two to keep this code
-		// from getting too long/disorganized
+        if (lastClicked != null) {
+            lastClicked.setClicked(false);
+            lastClicked = null;
+            unhideMarkers();
+        }
+        else {
+            // Hint: You probably want a helper method or two to keep this code
+            // from getting too long/disorganized
+            if (lastSelected != null) {
+                lastSelected.setClicked(true);
+                lastClicked = lastSelected;
+            }
+
+            if (lastClicked instanceof EarthquakeMarker) {
+                for (Marker city : cityMarkers) {
+                    double distance = dist(lastClicked, city);
+                    if (distance > ((EarthquakeMarker) lastClicked).threatCircle()) {
+                        city.setHidden(true);
+                    }
+                }
+                for (Marker eq : quakeMarkers) {
+                    if (!((CommonMarker) eq).getClicked()) {
+                        eq.setHidden(true);
+                    }
+                }
+            }
+
+            if (lastClicked instanceof CityMarker) {
+                for (Marker city : cityMarkers) {
+                    if (!((CommonMarker) city).getClicked()) {
+                        city.setHidden(true);
+                    }
+                }
+                for (Marker eq : quakeMarkers) {
+                    double distance = dist(lastClicked, eq);
+                    if (distance > ((EarthquakeMarker) eq).threatCircle()) {
+                        eq.setHidden(true);
+                    }
+                }
+
+            }
+
+        }
+
 	}
-	
+    private double dist(Marker marker1, Marker marker2) {
+        return marker1.getLocation().getDistance(marker2.getLocation());
+    }
+
+
 	
 	// loop over and unhide all markers
 	private void unhideMarkers() {
