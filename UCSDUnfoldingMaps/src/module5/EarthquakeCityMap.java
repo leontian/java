@@ -1,8 +1,5 @@
 package module5;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.GeoJSONReader;
@@ -16,6 +13,9 @@ import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
@@ -146,6 +146,13 @@ public class EarthquakeCityMap extends PApplet {
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
 		// TODO: Implement this method
+		for (Marker marker : markers) {
+            if (marker.isInside(map, mouseX, mouseY)) {
+                marker.setSelected(true);
+                lastSelected = (CommonMarker) marker;
+                break;
+            }
+        }
 	}
 	
 	/** The event handler for mouse clicks
