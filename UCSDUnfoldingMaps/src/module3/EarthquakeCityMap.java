@@ -1,25 +1,24 @@
 package module3;
 
 //Java utilities libraries
-import java.util.ArrayList;
-//import java.util.Collections;
-//import java.util.Comparator;
-import java.util.List;
-
-//Processing library
-import processing.core.PApplet;
-
-//Unfolding libraries
 import de.fhpotsdam.unfolding.UnfoldingMap;
-import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.data.PointFeature;
+import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
-
-//Parsing library
 import parsing.ParseFeed;
+import processing.core.PApplet;
+
+import java.util.ArrayList;
+import java.util.List;
+
+//import java.util.Collections;
+//import java.util.Comparator;
+//Processing library
+//Unfolding libraries
+//Parsing library
 
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
@@ -88,6 +87,14 @@ public class EarthquakeCityMap extends PApplet {
 	    int yellow = color(255, 255, 0);
 	    
 	    //TODO: Add code here as appropriate
+        // PointFeature is basically a HashMap from strings to Objects
+        // create marker for each earthquake and add marker to map
+        for (PointFeature eq : earthquakes) {
+            Object magObj = eq.getProperty("magnitude");
+            float mag = Float.parseFloat(magObj.toString());
+            SimplePointMarker marker = createMarker(eq);
+            map.addMarker(marker);
+        }
 	}
 		
 	// A suggested helper method that takes in an earthquake feature and 
@@ -96,7 +103,9 @@ public class EarthquakeCityMap extends PApplet {
 	private SimplePointMarker createMarker(PointFeature feature)
 	{
 		// finish implementing and use this method, if it helps.
-		return new SimplePointMarker(feature.getLocation());
+		SimplePointMarker marker = new SimplePointMarker(feature.getLocation());
+        marker.setRadius(10);
+		return marker;
 	}
 	
 	public void draw() {
