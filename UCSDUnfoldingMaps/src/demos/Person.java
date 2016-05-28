@@ -19,10 +19,11 @@ public class Person
 		return 22 < hr || 7 > hr; 
 	}
 	  
-	public String toString()      
-	{ 
-		return name; 
+	public String toString()
+	{
+		return name;
 	}
+
 
 	public void status( int hr )
 	{

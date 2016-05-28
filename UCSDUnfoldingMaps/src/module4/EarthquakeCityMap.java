@@ -1,8 +1,5 @@
 package module4;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.GeoJSONReader;
@@ -16,6 +13,10 @@ import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
@@ -59,8 +60,8 @@ public class EarthquakeCityMap extends PApplet {
 
 	// A List of country markers
 	private List<Marker> countryMarkers;
-	
-	public void setup() {		
+
+	public void setup() {
 		// (1) Initializing canvas and map tiles
 		size(900, 700, OPENGL);
 		if (offline) {
@@ -165,7 +166,12 @@ public class EarthquakeCityMap extends PApplet {
 		// IMPLEMENT THIS: loop over all countries to check if location is in any of them
 		
 		// TODO: Implement this method using the helper method isInCountry
-		
+        for (Marker country : countryMarkers) {
+            if (isInCountry(earthquake, country)) {
+                return true;
+            }
+        }
+
 		// not inside any country
 		return false;
 	}
@@ -179,6 +185,24 @@ public class EarthquakeCityMap extends PApplet {
 	private void printQuakes() 
 	{
 		// TODO: Implement this method
+        HashMap<String, Integer> eqCounts = new HashMap<String, Integer>();
+        for (Marker earthquake : quakeMarkers) {
+            String country = (String) earthquake.getProperty("country");
+            if (country == null) {
+                continue;
+            }
+            Integer i = eqCounts.get(country);
+            if (i != null)
+                eqCounts.put(country, i + 1);
+            else {
+                eqCounts.put(country, 1);
+            }
+        }
+        for (String c : eqCounts.keySet()) {
+            String key = c;
+            String value = eqCounts.get(c).toString();
+            System.out.println(key + ":" + value);
+        }
 	}
 	
 	
