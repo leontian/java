@@ -84,14 +84,11 @@ public class EarthquakeCityMap extends PApplet {
 	    
 	    // Here is an example of how to use Processing's color method to generate 
 	    // an int that represents the color yellow.  
-	    int yellow = color(255, 255, 0);
-	    
+
 	    //TODO: Add code here as appropriate
         // PointFeature is basically a HashMap from strings to Objects
         // create marker for each earthquake and add marker to map
         for (PointFeature eq : earthquakes) {
-            Object magObj = eq.getProperty("magnitude");
-            float mag = Float.parseFloat(magObj.toString());
             SimplePointMarker marker = createMarker(eq);
             map.addMarker(marker);
         }
@@ -103,8 +100,25 @@ public class EarthquakeCityMap extends PApplet {
 	private SimplePointMarker createMarker(PointFeature feature)
 	{
 		// finish implementing and use this method, if it helps.
+        int yellow = color(255, 255, 0);
+        int blue = color(0, 0, 255);
+        int red = color(255, 0, 0);
+
 		SimplePointMarker marker = new SimplePointMarker(feature.getLocation());
-        marker.setRadius(10);
+        Object magObj = feature.getProperty("magnitude");
+        float mag = Float.parseFloat(magObj.toString());
+        if (mag < THRESHOLD_LIGHT) {
+            marker.setRadius(5);
+            marker.setColor(blue);
+        }
+        else if (mag < THRESHOLD_MODERATE) {
+            marker.setRadius(10);
+            marker.setColor(yellow);
+        }
+        else {
+            marker.setRadius(15);
+            marker.setColor(red);
+        }
 		return marker;
 	}
 	
