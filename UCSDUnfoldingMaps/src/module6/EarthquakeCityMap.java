@@ -1,9 +1,5 @@
 package module6;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.GeoJSONReader;
@@ -17,6 +13,9 @@ import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
@@ -117,6 +116,7 @@ public class EarthquakeCityMap extends PApplet {
 
 	    // could be used for debugging
 	    printQuakes();
+        sortAndPrint(5);
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -137,9 +137,17 @@ public class EarthquakeCityMap extends PApplet {
 	
 	
 	// TODO: Add the method:
-	//   private void sortAndPrint(int numToPrint)
+	private void sortAndPrint(int numToPrint) {
+        EarthquakeMarker[] eqArray = new EarthquakeMarker[quakeMarkers.size()];
+        eqArray = quakeMarkers.toArray(eqArray);
+        java.util.Arrays.sort(eqArray);
+
+        for (int i = 0; i < numToPrint; i++) {
+            System.out.println(eqArray[i]);
+        }
+	}
 	// and then call that method from setUp
-	
+
 	/** Event handler that gets called automatically when the 
 	 * mouse moves.
 	 */
